@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Military Aircraft Retrieval</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="logo">✈</div>
+        <h2>Aircraft AI</h2>
+        <p>Multimodal visual search engine</p>
+
+        <div class="stat"><span>Total Images</span><b>23,341</b></div>
+        <div class="stat"><span>Retrieval</span><b>Hybrid</b></div>
+        <div class="stat"><span>Models</span><b>BGE + CLIP</b></div>
+    </aside>
+
+    <main class="main">
+        <section class="hero">
+            <h1>Military Aircraft Retrieval System</h1>
+            <p>Search aircraft photos by semantic descriptions or visual similarity.</p>
+
+            <form method="POST" enctype="multipart/form-data" class="search-box">
+                <select name="mode">
+                    <option value="text" {% if mode == "text" %}selected{% endif %}>Text Search</option>
+                    <option value="image" {% if mode == "image" %}selected{% endif %}>Image Search</option>
+                </select>
+
+                <input
+                    type="text"
+                    name="query"
+                    value="{{ query or '' }}"
+                    placeholder="Try: F15 on runway, aircraft bottom view, landing gear..."
+                >
+
+                <input type="file" name="image" accept="image/*">
+
+                <button type="submit">Search</button>
+            </form>
+
+            <div class="quick-tags">
+                <span>F15 fighter jet on runway</span>
+                <span>aircraft bottom view</span>
+                <span>visible landing gear</span>
+                <span>helicopter formation</span>
+            </div>
+        </section>
+
+        {% if results %}
+        <div class="result-bar">
+            <span>{{ results|length }} results found</span>
+            <span>Mode: {{ mode|capitalize }}</span>
+        </div>
+        {% endif %}
+
+        <section class="grid">
+            {% for r in results %}
+            <article class="card">
+                <div class="image-wrap">
+                    <img
+                        src="{{ r.image_url }}"
+                        alt="aircraft"
+                        class="result-image"
+                        data-image-url="{{ r.image_url }}"
+                        data-title="{{ r.class_name or 'Unknown' }}"
+                        data-score="{{ '%.3f'|format(r.score or 0) }}"
+                        data-caption="{{ r.caption or 'No description available.' }}"
+                    >
+
+                    <span class="rank">#{{ loop.index }}</span>
+                    <span class="score">{{ "%.3f"|format(r.score or 0) }}</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3>{{ r.class_name or "Unknown" }}</h3>
+                        <span>{{ r.environment or "Unknown" }}</span>
+                    </div>
+
+                    <p class="caption">
+                        {{ r.caption or "No description available." }}
+                    </p>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+</div>
+
+<div id="imageModal" class="modal">
+    <div class="modal-content">
+        <button class="close" type="button" onclick="closeModal()">×</button>
+        <img id="modalImage" src="" alt="selected aircraft">
+        <div class="modal-info">
+            <h2 id="modalTitle"></h2>
+            <p id="modalScore"></p>
+            <p id="modalCaption"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+const modal = document.getElementById("imageModal");
+const modalImage = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalScore = document.getElementById("modalScore");
+const modalCaption = document.getElementById("modalCaption");
+
+document.querySelectorAll(".result-image").forEach(function(img) {
+    img.addEventListener("click", function() {
+        modalImage.src = this.dataset.imageUrl;
+        modalTitle.innerText = this.dataset.title;
+        modalScore.innerText = "Similarity Score: " + this.dataset.score;
+        modalCaption.innerText = this.dataset.caption;
+        modal.style.display = "flex";
+    });
+});
+
+function closeModal() {
+    modal.style.display = "none";
+}
+
+modal.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeModal();
+    }
+});
+</script>
+
+</body>
+</html>

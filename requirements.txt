@@ -1,0 +1,9 @@
+Flask
+numpy
+pandas
+faiss-cpu
+sentence-transformers
+open_clip_torch
+torch
+torchvision
+Pillow

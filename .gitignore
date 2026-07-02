@@ -1,0 +1,80 @@
+# ===================================
+# Python
+# ===================================
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ===================================
+# Dataset (Do NOT upload)
+# ===================================
+dataset/
+
+# ===================================
+# Uploaded Images
+# ===================================
+static/uploads/*
+!static/uploads/.gitkeep
+
+# ===================================
+# AI Models (Do NOT upload)
+# ===================================
+models/*.pt
+models/*.pth
+models/*.ckpt
+models/*.bin
+models/*.onnx
+models/*.safetensors
+
+# ===================================
+# FAISS Indexes
+# ===================================
+models/*.index
+models/*.faiss
+
+# ===================================
+# Embeddings
+# ===================================
+models/*.npy
+models/*.npz
+
+# ===================================
+# Metadata (Generated)
+# ===================================
+models/*.csv
+models/*.parquet
+models/*.pkl
+models/*.pickle
+
+# ===================================
+# HuggingFace Cache
+# ===================================
+.cache/
+huggingface/
+hf_cache/
+
+# ===================================
+# Logs
+# ===================================
+*.log
+
+# ===================================
+# Temporary files
+# ===================================
+*.tmp
+*.temp
