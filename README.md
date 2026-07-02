@@ -8,9 +8,7 @@ The system combines **Qwen2.5-VL**, **BGE embeddings**, **CLIP image embeddings*
 
 # Demo Video
 
-https://github.com/user-attachments/assets/YOUR_VIDEO_LINK
-
-*(Replace with the uploaded GitHub video link after uploading.)*
+[https://github.com/user-attachments/assets/YOUR_VIDEO_LINK](https://github.com/talal-bakkour/flask-vlm-search/blob/main/static/media/Demo.mp4)
 
 ---
 
